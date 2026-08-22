@@ -50,11 +50,11 @@ public:
 
         ListNode* middle = getMiddle(head);
 
-        ListNode* rightHead = middle->next;
+        ListNode* nextToMiddle = middle->next;
         middle->next = nullptr;
 
         ListNode* left = mergeSort(head);
-        ListNode* right = mergeSort(rightHead);
+        ListNode* right = mergeSort(nextToMiddle);
 
         return merge(left, right);
     }
