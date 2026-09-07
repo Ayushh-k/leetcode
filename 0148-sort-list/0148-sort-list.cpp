@@ -10,12 +10,11 @@
  */
 class Solution {
 public:
-
-    ListNode* getMiddle(ListNode* head) {
+    ListNode* getMiddle(ListNode* head){
         ListNode* slow = head;
         ListNode* fast = head->next;
 
-        while (fast && fast->next) {
+        while(fast!=nullptr && fast->next!=nullptr){
             slow = slow->next;
             fast = fast->next->next;
         }
@@ -23,42 +22,38 @@ public:
         return slow;
     }
 
-    ListNode* merge(ListNode* left, ListNode* right) {
-        ListNode dummy(0);
-        ListNode* curr = &dummy;
+    ListNode* merge(ListNode* list1, ListNode* list2){
+        ListNode* dummy = new ListNode(-1);
+        ListNode* curr = dummy;
 
-        while (left && right) {
-            if (left->val <= right->val) {
-                curr->next = left;
-                left = left->next;
-            } else {
-                curr->next = right;
-                right = right->next;
+        while(list1!=nullptr && list2!=nullptr){
+            if(list1->val <= list2->val){
+                curr->next = list1;
+                list1 = list1->next;
+            }else{
+                curr->next = list2;
+                list2 = list2->next;
             }
-
             curr = curr->next;
         }
 
-        curr->next = left ? left : right;
-
-        return dummy.next;
+        curr->next = (list1)?list1:list2;
+        return dummy->next;
     }
 
-    ListNode* mergeSort(ListNode* head) {
-        if (!head || !head->next)
-            return head;
+    ListNode* mergeSort(ListNode* head){
+        if(!head||!head->next) return head;
 
-        ListNode* middle = getMiddle(head);
-
-        ListNode* nextToMiddle = middle->next;
-        middle->next = nullptr;
+        ListNode* mid = getMiddle(head);
+        ListNode* nextToMiddle = mid->next;
+        mid->next = nullptr;
 
         ListNode* left = mergeSort(head);
         ListNode* right = mergeSort(nextToMiddle);
 
-        return merge(left, right);
+        return merge(left,right);
+        
     }
-
     ListNode* sortList(ListNode* head) {
         return mergeSort(head);
     }
